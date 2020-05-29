@@ -42,7 +42,6 @@ import io.vertx.serviceproxy.ServiceExceptionMessageCodec;
 import io.vertx.serviceproxy.HelperUtils;
 
 import io.vertx.core.Vertx;
-import io.vertx.core.json.JsonObject;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import cal.advance.CalculatorService;
@@ -117,7 +116,26 @@ public class CalculatorServiceVertxProxyHandler extends ProxyHandler {
       accessed();
       switch (action) {
         case "add": {
-          service.add((io.vertx.core.json.JsonObject)json.getValue("jsonObject"),
+          service.add(json.getValue("a") == null ? null : (json.getLong("a").intValue()),
+                        json.getValue("b") == null ? null : (json.getLong("b").intValue()),
+                        HelperUtils.createHandler(msg));
+          break;
+        }
+        case "subtract": {
+          service.subtract(json.getValue("a") == null ? null : (json.getLong("a").intValue()),
+                        json.getValue("b") == null ? null : (json.getLong("b").intValue()),
+                        HelperUtils.createHandler(msg));
+          break;
+        }
+        case "multiply": {
+          service.multiply(json.getValue("a") == null ? null : (json.getLong("a").intValue()),
+                        json.getValue("b") == null ? null : (json.getLong("b").intValue()),
+                        HelperUtils.createHandler(msg));
+          break;
+        }
+        case "divide": {
+          service.divide(json.getValue("a") == null ? null : (json.getLong("a").intValue()),
+                        json.getValue("b") == null ? null : (json.getLong("b").intValue()),
                         HelperUtils.createHandler(msg));
           break;
         }

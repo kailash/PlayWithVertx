@@ -34,7 +34,6 @@ import io.vertx.serviceproxy.ServiceExceptionMessageCodec;
 import io.vertx.serviceproxy.ProxyUtils;
 
 import io.vertx.core.Vertx;
-import io.vertx.core.json.JsonObject;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import cal.advance.CalculatorService;
@@ -64,17 +63,78 @@ public class CalculatorServiceVertxEBProxy implements CalculatorService {
   }
 
   @Override
-  public  void add(JsonObject jsonObject, Handler<AsyncResult<String>> resultHandler){
+  public  void add(int a, int b, Handler<AsyncResult<Integer>> resultHandler){
     if (closed) {
       resultHandler.handle(Future.failedFuture(new IllegalStateException("Proxy is closed")));
       return;
     }
     JsonObject _json = new JsonObject();
-    _json.put("jsonObject", jsonObject);
+    _json.put("a", a);
+    _json.put("b", b);
 
     DeliveryOptions _deliveryOptions = (_options != null) ? new DeliveryOptions(_options) : new DeliveryOptions();
     _deliveryOptions.addHeader("action", "add");
-    _vertx.eventBus().<String>request(_address, _json, _deliveryOptions, res -> {
+    _vertx.eventBus().<Integer>request(_address, _json, _deliveryOptions, res -> {
+      if (res.failed()) {
+        resultHandler.handle(Future.failedFuture(res.cause()));
+      } else {
+        resultHandler.handle(Future.succeededFuture(res.result().body()));
+      }
+    });
+  }
+  @Override
+  public  void subtract(int a, int b, Handler<AsyncResult<Integer>> resultHandler){
+    if (closed) {
+      resultHandler.handle(Future.failedFuture(new IllegalStateException("Proxy is closed")));
+      return;
+    }
+    JsonObject _json = new JsonObject();
+    _json.put("a", a);
+    _json.put("b", b);
+
+    DeliveryOptions _deliveryOptions = (_options != null) ? new DeliveryOptions(_options) : new DeliveryOptions();
+    _deliveryOptions.addHeader("action", "subtract");
+    _vertx.eventBus().<Integer>request(_address, _json, _deliveryOptions, res -> {
+      if (res.failed()) {
+        resultHandler.handle(Future.failedFuture(res.cause()));
+      } else {
+        resultHandler.handle(Future.succeededFuture(res.result().body()));
+      }
+    });
+  }
+  @Override
+  public  void multiply(int a, int b, Handler<AsyncResult<Integer>> resultHandler){
+    if (closed) {
+      resultHandler.handle(Future.failedFuture(new IllegalStateException("Proxy is closed")));
+      return;
+    }
+    JsonObject _json = new JsonObject();
+    _json.put("a", a);
+    _json.put("b", b);
+
+    DeliveryOptions _deliveryOptions = (_options != null) ? new DeliveryOptions(_options) : new DeliveryOptions();
+    _deliveryOptions.addHeader("action", "multiply");
+    _vertx.eventBus().<Integer>request(_address, _json, _deliveryOptions, res -> {
+      if (res.failed()) {
+        resultHandler.handle(Future.failedFuture(res.cause()));
+      } else {
+        resultHandler.handle(Future.succeededFuture(res.result().body()));
+      }
+    });
+  }
+  @Override
+  public  void divide(int a, int b, Handler<AsyncResult<Integer>> resultHandler){
+    if (closed) {
+      resultHandler.handle(Future.failedFuture(new IllegalStateException("Proxy is closed")));
+      return;
+    }
+    JsonObject _json = new JsonObject();
+    _json.put("a", a);
+    _json.put("b", b);
+
+    DeliveryOptions _deliveryOptions = (_options != null) ? new DeliveryOptions(_options) : new DeliveryOptions();
+    _deliveryOptions.addHeader("action", "divide");
+    _vertx.eventBus().<Integer>request(_address, _json, _deliveryOptions, res -> {
       if (res.failed()) {
         resultHandler.handle(Future.failedFuture(res.cause()));
       } else {
