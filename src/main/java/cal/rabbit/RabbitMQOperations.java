@@ -34,7 +34,7 @@ public class RabbitMQOperations {
 	
 	
 	public void createQueue(String queueName) {
-		rabbitMQClient.queueDeclare("kailash.queue", true, true, false, resultHandler->{
+		rabbitMQClient.queueDeclare("kailash.queue", true, false, false, resultHandler->{
 			if(resultHandler.succeeded()) {
 				System.out.println("queue created successfully");
 			}else {

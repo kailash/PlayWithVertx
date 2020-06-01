@@ -11,13 +11,15 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.rabbitmq.RabbitMQClient;
-import io.vertx.serviceproxy.ServiceProxyBuilder;
+import io.vertx.servicediscovery.ServiceDiscovery;
+import io.vertx.servicediscovery.types.EventBusService;
 
 public class APIServerVerticle extends AbstractVerticle {
 	private HttpServer server;
 	private CalculatorService calculatorService;
 	private RabbitMQOperations rabbitOperation;
 	private RabbitMQClient rabbitMQClient;
+	private ServiceDiscovery discovery;
 
 	@Override
 	public void start() {
@@ -27,12 +29,24 @@ public class APIServerVerticle extends AbstractVerticle {
 		router.get("/api/multiply").handler(this::multiply);
 		router.get("/api/divide").handler(this::divide);
 
-		ServiceProxyBuilder builder = new ServiceProxyBuilder(vertx)
-				.setAddress("calculator.address");
-		calculatorService = builder.build(CalculatorService.class);
+		//ServiceProxyBuilder builder = new ServiceProxyBuilder(vertx)
+		//		.setAddress("calculator.address");
+		//calculatorService = builder.build(CalculatorService.class);
 
 		server = vertx.createHttpServer();
 		server.requestHandler(router::accept).listen(8080);
+		
+		
+		discovery=ServiceDiscovery.create(vertx);
+		EventBusService.getProxy(discovery,CalculatorService.class,ar->{
+			if(ar.succeeded()) {
+				System.out.println("discovered calculator service");
+				calculatorService=ar.result();
+			}else {
+				System.out.println("proxy discovery failed.");
+			}
+		});
+		
 
 		
 		rabbitMQClient = RabbitMQ.getInstance(vertx);
@@ -97,8 +111,8 @@ public class APIServerVerticle extends AbstractVerticle {
 				Integer.parseInt(json.getString("b")), handler -> {
 					if (handler.succeeded()) {
 						System.out.println("successfully called");
-						rabbitOperation.publish2RabbitMQ("successfully called for Multiply: a="+json.getString("a")+" b="+json.getString("b")+"Result :"+handler.result().toString());
 						
+						rabbitOperation.publish2RabbitMQ("successfully called for Multiply: a="+json.getString("a")+" b="+json.getString("b")+"Result :"+handler.result().toString());
 						
 						response.putHeader("content-type", "application/json")
 								.setStatusCode(200)
