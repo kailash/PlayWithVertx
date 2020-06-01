@@ -1,10 +1,17 @@
 cal\CustomResponse$ResponseBuilder.class
 cal\validation\Validator.class
+cal\rabbit\RabbitMQ.class
+cal\advance\CalculatorServiceVerticle.class
 cal\validation\ValidationsUtil.class
+cal\advance\CalculatorServiceImpl.class
 cal\advance\CalculatorServiceVertxEBProxy.class
 cal\CustomResponse.class
+cal\rabbit\RabbitMQOperations.class
 cal\advance\CalculatorServiceVertxProxyHandler.class
+cal\advance\APIServerVerticle.class
 cal\APIVerticle.class
 cal\CalculatorVerticle.class
 cal\validation\AdditionValidator.class
+cal\advance\CalculatorService.class
+cal\Starter.class
 cal\advance\package-info.class

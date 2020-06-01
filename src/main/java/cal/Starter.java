@@ -26,9 +26,8 @@ public class Starter extends AbstractVerticle {
 			rabbitOperation.bindQueue2Exchange("kailash.queue", "kailash.exchange");
 		});
 		
-		
-		
 		vertx.deployVerticle(APIServerVerticle.class.getName());
+		vertx.deployVerticle(CalculatorServiceVerticle.class.getName());
 		vertx.deployVerticle(CalculatorServiceVerticle.class.getName());
 	}
 
