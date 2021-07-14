@@ -18,7 +18,7 @@ jobs:
       with:
         java-version: 11
     - name: Compile code
-      run: mvn compile
+      run: mvn clean compile
 
   test:
     runs-on: ubuntu-latest
@@ -35,7 +35,7 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
-    name: Run mvn build and generate coverage report
+    name: Run mvn build
     needs: compile
     steps:
       - uses: actions/checkout@v2
