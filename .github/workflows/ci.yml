@@ -65,13 +65,13 @@ jobs:
   coverage:
      runs-on: ubuntu-latest
      name: maven coverage
-     needs: [test, build, static-analysis]
+     needs: [test, build]
      steps:
        - name: coverage with maven
          uses: actions/checkout@v2
          with:
            java-version: 11
-       - run: mvn -B verify -P coverage --no-transfer-progress
+       - run: mvn -B verify --no-transfer-progress
        
        - uses: kailash/mvn-coverage@v0.0.1
          with:
