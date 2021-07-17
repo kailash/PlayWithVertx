@@ -71,8 +71,7 @@ jobs:
          uses: actions/checkout@v2
          with:
            java-version: 11
-       - name: build and coverage    
-         working-directory: coverage-report
+       - name: build and coverage
          run: mvn clean -B verify --no-transfer-progress
        - name: upload artifact
          uses: actions/upload-artifact@v2
