@@ -56,7 +56,7 @@ jobs:
            pip3 install lxml
            
        - name: execute script
-         id: coverage
+#          id: coverage
          run : python3 parser.py target/jacoco-site/index.html
        
 #        - name: coverage badge
