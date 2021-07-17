@@ -73,6 +73,12 @@ jobs:
            java-version: 11
        - run: mvn clean -B verify --no-transfer-progress
        
+       - name: get file content
+         id : content
+       - run: echo ::set-output name=content::$(cat ./**/target/site/jacoco/jacoco.xml)
+       - name: test output
+         run: echo ${{steps.content.output.content}}
+         
        - uses: kailash/mvn-coverage@v0.0.1
          with:
            file_path: ./**/target/site/jacoco/jacoco.xml
