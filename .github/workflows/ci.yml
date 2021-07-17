@@ -71,16 +71,33 @@ jobs:
          uses: actions/checkout@v2
          with:
            java-version: 11
-       - run: mvn clean -B verify --no-transfer-progress
-       
-       - name: get file content
-         id : content
-         run: echo ::set-output name=content::$(cat /home/runner/work/PlayWithVertx/PlayWithVertx/target/jacoco-site/index.html)
-       - name: test output
-         run: echo ${{steps.content.output.content}}
-         
-       - uses: kailash/mvn-coverage@v0.0.1
+       - name: build and coverage    
+         working-directory: coverage-report
+         run: mvn clean -B verify --no-transfer-progress
+       - name: upload artifact
+         uses: actions/upload-artifacts@v2
+         with: 
+           name: index.html
+           path: coverage-report/target/jacoco-site/index.html
+           
+       - name : get artifact content
+         uses: actions/download-artifact@v2
          with:
-           file_path: /home/runner/work/PlayWithVertx/PlayWithVertx/target/jacoco-site/index.html
+           name: index.html
+           path: coverage-report/target/jacoco-site/index.html
+           
+       - name: print artifact
+         run: cat coverage-report/target/jacoco-site.index.html
+         
+       
+#        - name: get file content
+#          id : content
+#          run: echo ::set-output name=content::$(cat /home/runner/work/PlayWithVertx/PlayWithVertx/target/jacoco-site/index.html)
+#        - name: test output
+#          run: echo ${{steps.content.output.content}}
+         
+#        - uses: kailash/mvn-coverage@v0.0.1
+#          with:
+#            file_path: /home/runner/work/PlayWithVertx/PlayWithVertx/target/jacoco-site/index.html
      
   
