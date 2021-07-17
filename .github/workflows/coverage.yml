@@ -47,9 +47,10 @@ jobs:
            
        - name: install packages
          run: |
-           python -m pip install --upgrade pip
-           pip install pandas
-           pip install tabulate
+           python -m pip3 install --upgrade pip
+           pip3 install pandas
+           pip3 install tabulate
+           pip3 install lxml
            
        - name: execute script
          run : python parser.py target/jacoco-site/index.html
