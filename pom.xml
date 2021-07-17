@@ -101,6 +101,7 @@
 					</systemPropertyVariables>
 				</configuration>
 			</plugin>
+		</plugins>
 		
 		<pluginManagement>
 			<plugins>
