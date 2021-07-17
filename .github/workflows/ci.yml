@@ -10,7 +10,7 @@ jobs:
 
   compile:
     runs-on: ubuntu-latest
-    name: Running Java ${{ matrix.java }} compile
+    name:  ${{ matrix.java }} Compile
     steps:
     - uses: actions/checkout@v2
     - name: Set up JDK 11
@@ -28,7 +28,7 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
-    name: Running tests
+    name: Test
     needs: compile
     steps:
       - uses: actions/checkout@v2
@@ -41,7 +41,7 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
-    name: Run mvn build
+    name: Build
     needs: compile
     steps:
       - uses: actions/checkout@v2
@@ -53,7 +53,7 @@ jobs:
         run: mvn clean -B package --file pom.xml -Dmaven.test.skip=true
         
   static-analysis:
-    name: static analysis
+    name: Code quality
     runs-on: ubuntu-latest
     needs: [test, build]
     steps:
@@ -64,7 +64,7 @@ jobs:
         
   coverage:
      runs-on: ubuntu-latest
-     name: maven coverage
+     name: Code coverage
      needs: [test, build]
      steps:
        - name: coverage with maven
