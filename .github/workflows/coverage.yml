@@ -35,7 +35,7 @@ jobs:
            path: target/jacoco-site/index.html
   Parse:
      runs-on: ubuntu-latest
-     name: coverage
+     name: parser
      needs: [compile,coverage]
      steps:         
        - name : get coverage artifact
