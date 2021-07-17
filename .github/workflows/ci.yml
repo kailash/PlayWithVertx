@@ -75,7 +75,7 @@ jobs:
          working-directory: coverage-report
          run: mvn clean -B verify --no-transfer-progress
        - name: upload artifact
-         uses: actions/upload-artifacts@v2
+         uses: actions/upload-artifact@v2
          with: 
            name: index.html
            path: coverage-report/target/jacoco-site/index.html
