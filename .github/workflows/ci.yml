@@ -61,3 +61,20 @@ jobs:
         uses: actions/checkout@main
       - name: Run Codacy Analysis CLI
         uses: codacy/codacy-analysis-cli-action@master
+        
+  coverage:
+     runs-on: ubuntu-latest
+     name: maven coverage
+     needs: [test, build, static-analysis]
+     steps:
+       - name: coverage with maven
+         uses: actions/checkout@v2
+         with:
+           java-version: 11
+       - run: mvn -B verify -P coverage --no-transfer-progress
+       
+       - uses: kailash/mvn-coverage@v0.0.1
+         with:
+           file_path: ./**/target/site/jacoco/jacoco.xm
+     
+  
