@@ -33,7 +33,7 @@ jobs:
          with: 
            name: index.html
            path: target/jacoco-site/index.html
-  Parse:
+  parse:
      runs-on: ubuntu-latest
      name: parser
      needs: [compile,coverage]
@@ -57,13 +57,13 @@ jobs:
            
        - name: execute script
          id: coverage
-         run : python3 ./parser.py target/jacoco-site/index.html
+         run : python3 parser.py target/jacoco-site/index.html
        
-       - name: coverage badge
-         uses: RubbaBoy/BYOB@v1.2.0
-         with:
-           NAME: time
-           LABEL: 'coverage'
-           STATUS: ${{ steps.coverage.outputs.coverage }}
-           COLOR: 00EEFF
+#        - name: coverage badge
+#          uses: RubbaBoy/BYOB@v1.2.0
+#          with:
+#            NAME: time
+#            LABEL: 'coverage'
+#            STATUS: ${{ steps.coverage.outputs.coverage }}
+#            COLOR: 00EEFF
 
