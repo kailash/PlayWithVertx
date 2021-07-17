@@ -33,11 +33,7 @@ jobs:
          with: 
            name: index.html
            path: target/jacoco-site/index.html
-  parse:
-     runs-on: ubuntu-latest
-     name: parser
-     needs: [compile,coverage]
-     steps:         
+           
        - name : get coverage artifact
          uses: actions/download-artifact@v2
          with:
