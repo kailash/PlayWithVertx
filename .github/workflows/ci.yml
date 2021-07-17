@@ -78,7 +78,7 @@ jobs:
          uses: actions/upload-artifact@v2
          with: 
            name: index.html
-           path: coverage-report/target/jacoco-site/index.html
+           path: target/jacoco-site/index.html
            
        - name : get artifact content
          uses: actions/download-artifact@v2
