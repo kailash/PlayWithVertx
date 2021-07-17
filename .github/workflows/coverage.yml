@@ -57,7 +57,7 @@ jobs:
            
        - name: execute script
          id: coverage
-         run : python3 parser.py target/jacoco-site/index.html
+         run : python3 ./parser.py target/jacoco-site/index.html
        
        - name: coverage badge
          uses: RubbaBoy/BYOB@v1.2.0
