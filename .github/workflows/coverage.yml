@@ -8,7 +8,7 @@ on:
 jobs:
   compile:
     runs-on: ubuntu-latest
-    name: Running Java ${{ matrix.java }} compile
+    name: ${{ matrix.java }} compile
     steps:
     - uses: actions/checkout@v2
     - name: Set up JDK 11
@@ -19,7 +19,7 @@ jobs:
       run: mvn clean compile       
   coverage:
      runs-on: ubuntu-latest
-     name: maven coverage
+     name: coverage
      needs: compile
      steps:
        - name: coverage with maven
@@ -28,13 +28,17 @@ jobs:
            java-version: 11
        - name: build and coverage
          run: mvn clean -B verify --no-transfer-progress
-       - name: upload artifact
+       - name: upload coverage artifact
          uses: actions/upload-artifact@v2
          with: 
            name: index.html
            path: target/jacoco-site/index.html
-           
-       - name : get artifact content
+  Parse:
+     runs-on: ubuntu-latest
+     name: coverage
+     needs: [compile,coverage]
+     steps:         
+       - name : get coverage artifact
          uses: actions/download-artifact@v2
          with:
            name: index.html
@@ -52,19 +56,14 @@ jobs:
            pip3 install lxml
            
        - name: execute script
+         id: coverage
          run : python parser.py target/jacoco-site/index.html
-         
-         
-         
        
-#        - name: get file content
-#          id : content
-#          run: echo ::set-output name=content::$(cat /home/runner/work/PlayWithVertx/PlayWithVertx/target/jacoco-site/index.html)
-#        - name: test output
-#          run: echo ${{steps.content.output.content}}
-         
-#        - uses: kailash/mvn-coverage@v0.0.1
-#          with:
-#            file_path: /home/runner/work/PlayWithVertx/PlayWithVertx/target/jacoco-site/index.html
-     
-  
+       - name: coverage badge
+         uses: RubbaBoy/BYOB@v1.2.0
+         with:
+           NAME: time
+           LABEL: 'coverage'
+           STATUS: ${{ steps.coverage.outputs.coverage }}
+           COLOR: 00EEFF
+
