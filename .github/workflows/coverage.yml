@@ -52,14 +52,14 @@ jobs:
            pip3 install lxml
            
        - name: execute script
-#          id: coverage
+         id: coverage
          run : python3 parser.py target/jacoco-site/index.html
        
-#        - name: coverage badge
-#          uses: RubbaBoy/BYOB@v1.2.0
-#          with:
-#            NAME: time
-#            LABEL: 'coverage'
-#            STATUS: ${{ steps.coverage.outputs.coverage }}
-#            COLOR: 00EEFF
+       - name: generate badge
+         uses: RubbaBoy/BYOB@v1.2.0
+         with:
+           NAME: coverage
+           LABEL: 'coverage'
+           STATUS: ${{ steps.coverage.outputs.coverage }}
+           COLOR: 00EEFF
 
