@@ -47,7 +47,6 @@ jobs:
            
        - name: install packages
          run: |
-           python -m pip3 install --upgrade pip
            pip3 install pandas
            pip3 install tabulate
            pip3 install lxml
