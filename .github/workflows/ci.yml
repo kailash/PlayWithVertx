@@ -84,10 +84,10 @@ jobs:
          uses: actions/download-artifact@v2
          with:
            name: index.html
-           path: coverage-report/target/jacoco-site/index.html
+           path: /target/jacoco-site/index.html
            
        - name: print artifact
-         run: cat coverage-report/target/jacoco-site.index.html
+         run: cat /target/jacoco-site.index.html
          
        
 #        - name: get file content
