@@ -75,7 +75,7 @@ jobs:
        
        - name: get file content
          id : content
-       - run: echo ::set-output name=content::$(cat ./**/target/site/jacoco/jacoco.xml)
+         run: echo ::set-output name=content::$(cat ./**/target/site/jacoco/jacoco.xml)
        - name: test output
          run: echo ${{steps.content.output.content}}
          
