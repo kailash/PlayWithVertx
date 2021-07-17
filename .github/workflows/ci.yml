@@ -75,6 +75,6 @@ jobs:
        
        - uses: kailash/mvn-coverage@v0.0.1
          with:
-           file_path: ./**/target/site/jacoco/jacoco.xm
+           file_path: ./**/target/site/jacoco/jacoco.xml
      
   
