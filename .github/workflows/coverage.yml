@@ -1,0 +1,66 @@
+name: coverage
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+    name: ${{ matrix.java }} compile
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK 11
+      uses: actions/setup-java@v1
+      with:
+        java-version: 11
+    - name: Compile code
+      run: mvn clean compile       
+  coverage:
+     runs-on: ubuntu-latest
+     name: coverage
+     needs: compile
+     steps:
+       - name: coverage with maven
+         uses: actions/checkout@v2
+         with:
+           java-version: 11
+       - name: build and coverage
+         run: mvn clean -B verify --no-transfer-progress
+       - name: upload coverage artifact
+         uses: actions/upload-artifact@v2
+         with: 
+           name: index.html
+           path: target/jacoco-site/index.html
+           
+       - name : get coverage artifact
+         uses: actions/download-artifact@v2
+         with:
+           name: index.html
+           path: target/jacoco-site
+           
+       - name: setup python
+         uses: actions/setup-python@v2
+         with: 
+           python-version: '3.7.7'
+           
+       - name: install packages
+         run: |
+           pip3 install pandas
+           pip3 install tabulate
+           pip3 install lxml
+           
+       - name: execute script
+         id: coverage
+         run : python3 parser.py target/jacoco-site/index.html
+       
+       - name: generate badge
+         uses: RubbaBoy/BYOB@v1.2.0
+         with:
+           NAME: coverage
+           LABEL: 'coverage'
+           STATUS: ${{ steps.coverage.outputs.coverage }}
+           COLOR: 00EEFF
+           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
